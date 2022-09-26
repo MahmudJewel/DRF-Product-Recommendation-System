@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
-from .views import CustomerViewset, VendorViewset, WeatherViewset, ProductViewset
+from .views import CustomerViewset, VendorViewset, WeatherViewset, ProductViewset, ProductSearch
 
 router = DefaultRouter()
 # Account creation, edition, deletions
@@ -14,4 +14,7 @@ router.register('product', ProductViewset, basename='product')
 urlpatterns = [
     # router 
     path('', include(router.urls)),
+
+    # Search product
+    path('search/', ProductSearch.as_view(), name='search'),
 ]

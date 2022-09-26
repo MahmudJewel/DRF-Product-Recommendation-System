@@ -1,9 +1,13 @@
 from django.shortcuts import render
+from django.contrib.auth.models import Group
+# from django.db.models import Q
+
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly, AllowAny
-from django.contrib.auth.models import Group
 from rest_framework import status
+from rest_framework import generics
+
 
 from django.contrib.auth import get_user_model
 User = get_user_model()
@@ -48,3 +52,15 @@ class ProductViewset(viewsets.ModelViewSet):
 	serializer_class = ProductSerializers
 	queryset = Product.objects.all()
 	permission_classes = [AllowAny, ]
+
+# product search view
+class ProductSearch(generics.ListAPIView):
+	serializer_class = ProductSerializers
+
+	def get_queryset(self):
+		search = self.request.query_params.get('search', None)
+		products = Product.objects.all()
+		if search is not None:
+			products = products.filter(title__contains=search) | products.filter(types__title__contains=search)
+		# print(f"Name = {search} and product=> {products}")
+		return products

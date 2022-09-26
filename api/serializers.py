@@ -39,7 +39,7 @@ class VendorSerializers(serializers.ModelSerializer):
 
 # *********** start serializer for product and types create and update ************
 
-# serializers for weather/product creation, edition, deletions
+# serializers for weather creation, edition, deletions
 class WeatherSerializers(serializers.ModelSerializer):
 	class Meta:
 		model = WeatherTypes
@@ -53,5 +53,5 @@ class ProductSerializers(serializers.ModelSerializer):
 		fields = ['id','title','price','quantity','types']
 
 
-# *********** start serializer for product and types create and update ************
+# *********** end serializer for product and types create and update ************
 

@@ -14,6 +14,7 @@ User = get_user_model()
 
 from .serializers import CustomerSerializers, VendorSerializers, WeatherSerializers, ProductSerializers
 from product.models import WeatherTypes, Product
+from .custompermissions import IsCustomer, IsVendor
 # Create your views here.
 
 # Customer creation, edition, deletion through viewset
@@ -46,16 +47,28 @@ class VendorViewset(viewsets.ModelViewSet):
 class WeatherViewset(viewsets.ModelViewSet):
 	serializer_class = WeatherSerializers
 	queryset = WeatherTypes.objects.all()
-	permission_classes = [AllowAny, ]
+	permission_classes = [IsAdminUser, ]
 
+# product creation, edition, deletion 
 class ProductViewset(viewsets.ModelViewSet):
 	serializer_class = ProductSerializers
 	queryset = Product.objects.all()
-	permission_classes = [AllowAny, ]
+	# permission_classes = [AllowAny, ]
+	def get_permissions(self):
+		if self.request.method == 'GET':
+			self.permission_classes = [IsAuthenticated, ]
+
+		elif self.request.method == 'PATCH':
+			self.permission_classes = [IsAdminUser, ]
+		
+		else:
+			self.permission_classes = [IsVendor, ]
+		return super(ProductViewset, self).get_permissions()
 
 # product search view
 class ProductSearch(generics.ListAPIView):
 	serializer_class = ProductSerializers
+	permission_classes = [IsAuthenticated, ]
 
 	def get_queryset(self):
 		search = self.request.query_params.get('search', None)

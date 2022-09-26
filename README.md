@@ -1,4 +1,4 @@
-﻿API for Product Recommendation System
+﻿# API for Product Recommendation System
 # Requirements ==> 
 The project will have following features-
 * You need to create three types of users: admins, vendors, and customers.
@@ -29,32 +29,46 @@ The project will have following features-
 ### Login & verify user
 | SRL | METHOD | ROUTE | FUNCTIONALITY |ACCESS|
 | ------- | ------- | ----- | ------------- | ------------- |
-| *1* | *POST* | ```/jwt/create/``` | _Login user_| _All users_|
-| *2* | *POST* | ```/jwt/refresh/``` | _Refresh the access token_|_All users_|
-| *3* | *POST* | ```/jwt/verify/``` | _Verify the validity of a token_|_All users_|
-### User API 
+| *1* | *POST* | ```/api/token/``` | _Login user_| _All users_|
+| *2* | *POST* | ```/api/token/refresh/``` | _Refresh the access token_|_All users_|
+| *3* | *POST* | ```/api/token/verify/``` | _Verify the validity of a token_|_All users_|
+
+### Customer Related API 
 | SRL | METHOD | ROUTE | FUNCTIONALITY |ACCESS|
 | ------- | ------- | ----- | ------------- | ------------- |
-| *4* | *POST* | ```/api/auth/``` | _Register new user_|_Allow any_|
-| *5* | *GET* | ```/api/auth/``` | _List all user_|_Adminuser_|
-| *6* | *PUT* | ```/api/auth/id/``` | _Update user_|_Adminuser_|
-| *7* | *DELETE* | ```/api/auth/id/``` | _Delete user_|_Adminuser_|
-### Product API
+| *4* | *POST* | ```/api/auth/customer/``` | _Register new customer_|_Allow any_|
+| *5* | *GET* | ```/api/auth/customer/``` | _List all customer_|_Adminuser_|
+| *6* | *PUT* | ```/api/auth/customer/uid/``` | _Update customer_|_Adminuser_|
+| *7* | *DELETE* | ```/api/auth/customer/uid/``` | _Delete customer_|_Adminuser_|
+
+### Vendor Related API 
 | SRL | METHOD | ROUTE | FUNCTIONALITY |ACCESS|
 | ------- | ------- | ----- | ------------- | ------------- |
-| *8* | *GET* | ```/api/product/``` | _List All product_|_Allow any_|
-| *9* | *PUT* | ```/api/product/``` | _Update product_|_Adminuser_|
-| *10* | *POST* | ```/api/product/``` | _Add new product_|_Adminuser_|
-| *11* | *DELETE* | ```/api/product/id``` | _Delete product_|_Adminuser_|
-| *12* | *GET* | ```/api/search/?search=text``` | _Searched product and view_|_Allow any_|
-### Order API
+| *8* | *POST* | ```/api/auth/vendor/``` | _Register new vendor_|_Allow any_|
+| *9* | *GET* | ```/api/auth/vendor/``` | _List all vendor_|_Adminuser_|
+| *10* | *PUT* | ```/api/auth/vendor/uid/``` | _Update vendor_|_Adminuser_|
+| *11* | *DELETE* | ```/api/auth/vendor/uid/``` | _Delete vendor_|_Adminuser_|
+
+### Weather Related API 
 | SRL | METHOD | ROUTE | FUNCTIONALITY |ACCESS|
 | ------- | ------- | ----- | ------------- | ------------- |
-| *13* | *GET* | ```/api/order/``` | _List all order_|_Adminuser_|
-| *14* | *POST* | ```/api/order/``` | _Create new order_|_All users_|
-| *15* | *PUT* | ```/api/order/id/``` | _Update order/status_|_Adminuser_|
-| *16* | *DELETE* | ```/api/order/id/``` | _Delete order_|_All users_|
-| *17* | *GET* | ```/api/order/``` | _List Indivisual user’s all order_|_All users_|
+| *12* | *POST* | ```/api/weather/``` | _Add new weather type_|_Adminuser_|
+| *13* | *GET* | ```/api/weather/``` | _List all weather type_|_Adminuser_|
+| *14* | *PUT* | ```/api/weather/id/``` | _Edit weather type_|_Adminuser_|
+| *15* | *DELETE* | ```/api/weather/id/``` | _Delete weather type_|_Adminuser_|
+| *16* | *PATCH* | ```/api/weather/id/``` | _Update high and low temperature_|_Adminuser_|
+
+### Product Related API 
+| SRL | METHOD | ROUTE | FUNCTIONALITY |ACCESS|
+| ------- | ------- | ----- | ------------- | ------------- |
+| *17* | *GET* | ```/api/product/``` | _All product list_|_Any user_|
+| *18* | *POST* | ```/api/product/``` | _Add new product_|_vendor_|
+| *19* | *PUT* | ```/api/product/pid/``` | _Edit product_|_vendor_|
+| *20* | *DELETE* | ```/api/product/pid/``` | _Delete  product_|_vendor_|
+| *21* | *GET* | ```/api/search/?search=text``` | _Search product according to product title or weather type_|_Any user_|
+| *22* | *PATCH* | ```/api/product/id/``` | _Update product type_|_Adminuser_|
+| *23* | *GET* | ```/api/recommendation/?location=city_name``` | _Product recommendation_|_Any one_|
+
 
 # Tools
 ### Back-end

@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 User = get_user_model()
 
-# from product.models import Product, WeatherTypes
+from product.models import Product, WeatherTypes
 # *********** start serializer for account create and update ************
 class CustomerSerializers(serializers.ModelSerializer):
 	class Meta:
@@ -36,3 +36,21 @@ class VendorSerializers(serializers.ModelSerializer):
 		customer_group[0].user_set.add(new_user)
 		return new_user
 # *********** end serializer for account create and update ************
+
+# *********** start serializer for product and types create and update ************
+
+# serializers for weather/product creation, edition, deletions
+class WeatherSerializers(serializers.ModelSerializer):
+	class Meta:
+		model = WeatherTypes
+		fields = '__all__'
+
+# serializers for product creation, edition, deletions
+class ProductSerializers(serializers.ModelSerializer):
+	types = WeatherSerializers()
+	class Meta:
+		model = Product
+		fields = ['id','title','price','quantity','types']
+
+# *********** start serializer for product and types create and update ************
+

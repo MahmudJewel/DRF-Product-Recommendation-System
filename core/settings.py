@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     # installed app 
     'accounts',
     'api',
+    'product',
 ]
 
 MIDDLEWARE = [

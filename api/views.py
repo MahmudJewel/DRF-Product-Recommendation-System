@@ -8,8 +8,8 @@ from rest_framework import status
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
-from .serializers import CustomerSerializers, VendorSerializers#, WeatherSerializers, ProductSerializers
-# from product.models import WeatherTypes, Product
+from .serializers import CustomerSerializers, VendorSerializers, WeatherSerializers#, ProductSerializers
+from product.models import WeatherTypes, Product
 # Create your views here.
 
 # Customer creation, edition, deletion through viewset
@@ -37,3 +37,9 @@ class VendorViewset(viewsets.ModelViewSet):
 		else:
 			self.permission_classes = [IsAdminUser, ]
 		return super(VendorViewset, self).get_permissions()
+
+# product/weather types view for creation, edition, deletions 
+class WeatherViewset(viewsets.ModelViewSet):
+	serializer_class = WeatherSerializers
+	queryset = WeatherTypes.objects.all()
+	permission_classes = [AllowAny, ]

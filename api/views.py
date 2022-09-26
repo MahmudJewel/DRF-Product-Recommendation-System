@@ -8,7 +8,7 @@ from rest_framework import status
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
-from .serializers import CustomerSerializers, VendorSerializers, WeatherSerializers#, ProductSerializers
+from .serializers import CustomerSerializers, VendorSerializers, WeatherSerializers, ProductSerializers
 from product.models import WeatherTypes, Product
 # Create your views here.
 
@@ -42,4 +42,9 @@ class VendorViewset(viewsets.ModelViewSet):
 class WeatherViewset(viewsets.ModelViewSet):
 	serializer_class = WeatherSerializers
 	queryset = WeatherTypes.objects.all()
+	permission_classes = [AllowAny, ]
+
+class ProductViewset(viewsets.ModelViewSet):
+	serializer_class = ProductSerializers
+	queryset = Product.objects.all()
 	permission_classes = [AllowAny, ]

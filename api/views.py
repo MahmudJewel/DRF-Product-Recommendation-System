@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import Group
 # from django.db.models import Q
+from django.http import JsonResponse
 
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -12,9 +13,14 @@ from rest_framework import generics
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
+import json
+import urllib.request
+
 from .serializers import CustomerSerializers, VendorSerializers, WeatherSerializers, ProductSerializers
 from product.models import WeatherTypes, Product
 from .custompermissions import IsCustomer, IsVendor
+
+
 # Create your views here.
 
 # Customer creation, edition, deletion through viewset
@@ -76,4 +82,24 @@ class ProductSearch(generics.ListAPIView):
 		if search is not None:
 			products = products.filter(title__contains=search) | products.filter(types__title__contains=search)
 		# print(f"Name = {search} and product=> {products}")
+		return products
+	
+# product recommendation using open weather 
+class ProductRecommendation(generics.ListAPIView):
+	serializer_class = ProductSerializers
+	permission_classes = [AllowAny, ]
+
+	def get_queryset(self):
+		location = self.request.query_params.get('location', None)
+		products = Product.objects.all()
+		if location is not None:
+			try:
+				res = urllib.request.urlopen('https://api.openweathermap.org/data/2.5/weather?q='+location+'&appid=152c59dd83e25d36d4ba958810b363a0').read()
+				json_data = json.loads(res)
+				temperature = int(json_data['main']['temp'] - 273.15)
+				# temperature = 10
+				print('temperature: ', temperature)
+				products = products.filter(types__low_temp__lte=temperature).filter(types__high_temp__gte=temperature)
+			except Exception as e:
+				print('Error==> ', e)
 		return products

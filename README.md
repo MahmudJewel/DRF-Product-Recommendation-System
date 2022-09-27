@@ -85,10 +85,10 @@ The project will have following features-
 	djangorestframework-simplejwt==5.2.0
 	pycodestyle==2.9.1
 	PyJWT==2.5.0
+	python-dotenv==0.21.0
 	pytz==2022.2.1
 	sqlparse==0.4.3
 	toml==0.10.2
-
 	
 ### Database:
 	SQLite

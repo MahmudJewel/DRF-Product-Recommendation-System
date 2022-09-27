@@ -93,6 +93,9 @@ The project will have following features-
 ### Database:
 	SQLite
 
+### Weather API:
+	Open Weather Map API (https://openweathermap.org/api)
+
 # Setup
 The first thing to do is to clone the repository:
 ```sh

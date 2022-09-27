@@ -1,11 +1,16 @@
 from django.shortcuts import render
 from django.contrib.auth.models import Group
-# from django.db.models import Q
 from django.http import JsonResponse
+import os
 
 from rest_framework import viewsets
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly, AllowAny
+from rest_framework.permissions import (
+	IsAuthenticated, 
+	IsAdminUser, 
+	IsAuthenticatedOrReadOnly, 
+	AllowAny
+)
 from rest_framework import status
 from rest_framework import generics
 
@@ -16,7 +21,13 @@ User = get_user_model()
 import json
 import urllib.request
 
-from .serializers import CustomerSerializers, VendorSerializers, WeatherSerializers, ProductSerializers
+from .serializers import (
+	CustomerSerializers, 
+	VendorSerializers, 
+	WeatherSerializers, 
+	ProductSerializers
+)
+
 from product.models import WeatherTypes, Product
 from .custompermissions import IsCustomer, IsVendor
 
@@ -81,7 +92,6 @@ class ProductSearch(generics.ListAPIView):
 		products = Product.objects.all()
 		if search is not None:
 			products = products.filter(title__contains=search) | products.filter(types__title__contains=search)
-		# print(f"Name = {search} and product=> {products}")
 		return products
 	
 # product recommendation using open weather 
@@ -93,8 +103,10 @@ class ProductRecommendation(generics.ListAPIView):
 		location = self.request.query_params.get('location', None)
 		products = Product.objects.all()
 		if location is not None:
+			API_KEY=str(os.getenv('OPENWEATHER_API_KEY'))
+			# print('API key => ',API_KEY)
 			try:
-				res = urllib.request.urlopen('https://api.openweathermap.org/data/2.5/weather?q='+location+'&appid=152c59dd83e25d36d4ba958810b363a0').read()
+				res = urllib.request.urlopen('https://api.openweathermap.org/data/2.5/weather?q='+location+'&appid='+API_KEY).read()
 				json_data = json.loads(res)
 				temperature = int(json_data['main']['temp'] - 273.15)
 				# temperature = 10

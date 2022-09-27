@@ -2,4 +2,6 @@
 venv
 doc
 screenshot
+.env
+
 
